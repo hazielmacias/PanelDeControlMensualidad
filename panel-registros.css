@@ -348,6 +348,190 @@ body {
 }
 
 /* ===================================
+   FILTRO DE MESES - NUEVO
+   =================================== */
+.filtro-meses-container {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+  border: 2px solid var(--gray-200);
+}
+
+.filtro-meses-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--gray-200);
+}
+
+.filtro-meses-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.filtro-meses-title svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--primary-color);
+}
+
+.filtro-meses-title h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin: 0;
+}
+
+.filtro-meses-title span {
+  color: var(--primary-color);
+}
+
+.btn-limpiar-meses {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--danger-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--box-shadow);
+}
+
+.btn-limpiar-meses:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.btn-limpiar-meses svg {
+  width: 18px;
+  height: 18px;
+}
+
+.meses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.mes-card {
+  background: white;
+  padding: 1.25rem;
+  border-radius: var(--border-radius);
+  border: 2px solid var(--gray-200);
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.mes-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--primary-color);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.mes-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary-color);
+}
+
+.mes-card:hover::before {
+  transform: scaleX(1);
+}
+
+.mes-card.seleccionado {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-color: var(--primary-color);
+  color: white;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(230, 126, 34, 0.4);
+}
+
+.mes-card.seleccionado::before {
+  transform: scaleX(1);
+  background: white;
+}
+
+.mes-nombre {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.mes-numero {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.mes-card.seleccionado .mes-numero {
+  opacity: 1;
+}
+
+.mes-icon {
+  width: 32px;
+  height: 32px;
+  margin: 0 auto 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gray-100);
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+.mes-card.seleccionado .mes-icon {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.mes-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--primary-color);
+}
+
+.mes-card.seleccionado .mes-icon svg {
+  stroke: white;
+}
+
+.meses-info {
+  text-align: center;
+  padding: 1rem;
+  background: var(--gray-50);
+  border-radius: var(--border-radius);
+}
+
+.meses-seleccionados-badge {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  background: var(--info-color);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* ===================================
    CONTROLES DE FILTRADO
    =================================== */
 .registros-controls {
@@ -418,42 +602,15 @@ body {
 .filtros-fecha-row {
   display: flex;
   gap: 1rem;
-  align-items: flex-end;
-}
-
-.rc-date-wrap {
-  flex: 1;
-}
-
-.rc-date-wrap label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--gray-700);
-}
-
-.rc-date-wrap input[type="date"] {
-  width: 100%;
-  padding: 0.875rem 1rem;
-  border: 1.5px solid var(--gray-300);
-  border-radius: var(--border-radius);
-  font-family: 'Poppins', sans-serif;
-  font-size: 0.95rem;
-  transition: var(--transition);
-}
-
-.rc-date-wrap input[type="date"]:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-limpiar {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.875rem 1.25rem;
+  padding: 0.875rem 1.5rem;
   background: var(--gray-100);
   border: 1.5px solid var(--gray-300);
   border-radius: var(--border-radius);
@@ -469,6 +626,8 @@ body {
 .btn-limpiar:hover {
   background: var(--gray-200);
   border-color: var(--gray-400);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn-limpiar svg {
@@ -892,6 +1051,20 @@ body {
 
   .registros-summary {
     grid-template-columns: 1fr;
+  }
+
+  .filtro-meses-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .btn-limpiar-meses {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .meses-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   }
 
   .filtros-grid {
