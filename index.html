@@ -118,6 +118,34 @@
       </div>
     </div>
 
+    <!-- NUEVA SECCIÓN: Selector de Meses -->
+    <div class="filtro-meses-container">
+      <div class="filtro-meses-header">
+        <div class="filtro-meses-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          <h3>Filtrar por Mensualidades - <span id="añoActual">2025</span></h3>
+        </div>
+        <button id="btnLimpiarMeses" class="btn-limpiar-meses">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+          Limpiar selección
+        </button>
+      </div>
+      <div class="meses-grid" id="mesesGrid">
+        <!-- Se genera dinámicamente con JavaScript -->
+      </div>
+      <div class="meses-info" id="mesesInfo">
+        <span class="meses-seleccionados-badge">0 meses seleccionados</span>
+      </div>
+    </div>
+
     <!-- Controles de filtrado -->
     <div class="registros-controls">
       <!-- Primera fila: Búsqueda y filtros principales -->
@@ -165,25 +193,15 @@
         </div>
       </div>
 
-      <!-- Segunda fila: Fechas y botón limpiar -->
+      <!-- Segunda fila: Botón limpiar -->
       <div class="filtros-fecha-row">
-        <div class="rc-date-wrap">
-          <label>Desde:</label>
-          <input type="date" id="fechaDesde" />
-        </div>
-
-        <div class="rc-date-wrap">
-          <label>Hasta:</label>
-          <input type="date" id="fechaHasta" />
-        </div>
-
         <button class="btn-limpiar" id="btnLimpiarFiltros">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="1 4 1 10 7 10"/>
             <polyline points="23 20 23 14 17 14"/>
             <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
           </svg>
-          <span>Limpiar Filtros</span>
+          <span>Limpiar Todos los Filtros</span>
         </button>
       </div>
     </div>
@@ -374,6 +392,10 @@
       statusEl.classList.add('error');
     }
   </script>
+
+  <!-- jsPDF Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
   <!-- Main Script -->
   <script src="panel-registros.js"></script>
