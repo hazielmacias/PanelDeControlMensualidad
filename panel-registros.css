@@ -6,7 +6,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 :root {
   --primary-color: #e67e22;
   --secondary-color: #f39c12;
@@ -1100,4 +1099,3 @@ body {
     justify-content: center;
   }
 }
-
