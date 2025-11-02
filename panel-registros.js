@@ -5,7 +5,6 @@ let registrosGlobal = [];
 let registroActualId = null;
 let firestoreListener = null;
 let mesesSeleccionados = [];
-
 // ===================================
 // INICIALIZACIÓN
 // ===================================
@@ -793,3 +792,4 @@ function ocultarPantallaCarga() {
 window.abrirModal = abrirModal;
 window.cerrarModal = cerrarModal;
 window.toggleMes = toggleMes;
+
