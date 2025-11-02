@@ -5,6 +5,7 @@ let registrosGlobal = [];
 let registroActualId = null;
 let firestoreListener = null;
 let mesesSeleccionados = [];
+
 // ===================================
 // INICIALIZACIÓN
 // ===================================
@@ -267,6 +268,46 @@ function actualizarEstadisticas() {
 }
 
 // ===================================
+// OBTENER MES DESDE FECHA
+// ===================================
+function obtenerMesDesdeFecha(registro) {
+  // Intentar obtener mes desde fechaPago primero
+  if (registro.fechaPago) {
+    try {
+      const fecha = new Date(registro.fechaPago);
+      const numeroMes = fecha.getMonth() + 1; // getMonth() devuelve 0-11
+      return obtenerNombreMesCompleto(numeroMes);
+    } catch (error) {
+      console.warn('Error al parsear fechaPago:', error);
+    }
+  }
+  
+  // Si no hay fechaPago, intentar con fechaAsignada
+  if (registro.fechaAsignada) {
+    try {
+      const fecha = new Date(registro.fechaAsignada);
+      const numeroMes = fecha.getMonth() + 1;
+      return obtenerNombreMesCompleto(numeroMes);
+    } catch (error) {
+      console.warn('Error al parsear fechaAsignada:', error);
+    }
+  }
+  
+  return 'N/A';
+}
+
+// ===================================
+// OBTENER NOMBRE DEL MES COMPLETO
+// ===================================
+function obtenerNombreMesCompleto(numeroMes) {
+  const meses = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  ];
+  return meses[numeroMes - 1] || 'N/A';
+}
+
+// ===================================
 // RENDERIZAR TABLA
 // ===================================
 function renderizarTabla(registros) {
@@ -280,7 +321,7 @@ function renderizarTabla(registros) {
   
   if (registros.length === 0) {
     tbody.innerHTML = `
-      <tr><td colspan="9" class="no-registros">No se encontraron registros</td></tr>
+      <tr><td colspan="10" class="no-registros">No se encontraron registros</td></tr>
     `;
     countElement.textContent = 'No hay registros para mostrar';
     return;
@@ -291,6 +332,9 @@ function renderizarTabla(registros) {
   tbody.innerHTML = registros.map(registro => {
     // Obtener la fecha desde fechaPago
     let fechaMostrar = registro.fechaPago || 'N/A';
+    
+    // Obtener el mes
+    const mes = obtenerMesDesdeFecha(registro);
     
     // Obtener el nombre completo
     const nombre = registro.nombreCompleto || 'N/A';
@@ -313,6 +357,7 @@ function renderizarTabla(registros) {
     return `
       <tr>
         <td data-label="Fecha">${fechaMostrar}</td>
+        <td data-label="Mes">${mes}</td>
         <td data-label="Nombre">${nombre}</td>
         <td data-label="Categoría">${categoria}</td>
         <td data-label="Concepto">${concepto}</td>
@@ -465,6 +510,10 @@ function abrirModal(id) {
     <div class="dato-item">
       <div class="dato-label">Fecha de Pago</div>
       <div class="dato-valor">${registro.fechaPago || 'N/A'}</div>
+    </div>
+    <div class="dato-item">
+      <div class="dato-label">Mes</div>
+      <div class="dato-valor">${obtenerMesDesdeFecha(registro)}</div>
     </div>
     <div class="dato-item">
       <div class="dato-label">Fecha Asignada</div>
@@ -643,6 +692,7 @@ async function exportarAPDF() {
     // Preparar datos de la tabla
     const tableData = registrosFiltrados.map(registro => [
       registro.fechaPago || 'N/A',
+      obtenerMesDesdeFecha(registro),
       registro.nombreCompleto || 'N/A',
       registro.categoria || 'N/A',
       registro.conceptoPago || 'N/A',
@@ -655,17 +705,17 @@ async function exportarAPDF() {
     // Agregar tabla con autoTable
     doc.autoTable({
       startY: yPos + 10,
-      head: [['Fecha', 'Nombre', 'Categoría', 'Concepto', 'Monto', 'Tipo Pago', 'Folio', 'Estado']],
+      head: [['Fecha', 'Mes', 'Nombre', 'Categoría', 'Concepto', 'Monto', 'Tipo Pago', 'Folio', 'Estado']],
       body: tableData,
       theme: 'grid',
       headStyles: {
         fillColor: [230, 126, 34],
         textColor: [255, 255, 255],
         fontStyle: 'bold',
-        fontSize: 9
+        fontSize: 8
       },
       bodyStyles: {
-        fontSize: 8,
+        fontSize: 7,
         textColor: [55, 65, 81]
       },
       alternateRowStyles: {
@@ -772,7 +822,7 @@ function mostrarError(mensaje) {
   const tbody = document.getElementById('registrosTabla');
   if (tbody) {
     tbody.innerHTML = `
-      <tr><td colspan="9" class="no-registros">${mensaje}</td></tr>
+      <tr><td colspan="10" class="no-registros">${mensaje}</td></tr>
     `;
   }
 }
@@ -792,4 +842,3 @@ function ocultarPantallaCarga() {
 window.abrirModal = abrirModal;
 window.cerrarModal = cerrarModal;
 window.toggleMes = toggleMes;
-
